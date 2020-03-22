@@ -15,11 +15,8 @@ async function getWeaponById(id) {
 async function getWeaponTree(id) {
   const weapon = await getWeaponById(id);
   const lastWeaponId = weapon.crafting.previous;
-
   const lastWeapon = await getWeaponById(lastWeaponId);
   const requiredMats = lastWeapon.crafting.upgradeMaterials;
-  //console.log(weapon.crafting.previous);
-  //console.log(lastWeapon.crafting.upgradeMaterials);
   const requiredMatsContainer = document.getElementById('requiredMaterials');
 
   document.getElementById('weapon').innerHTML = 'Current Weapon: ' + weapon.name;
