@@ -3,12 +3,40 @@
   <head>
     <meta charset="UTF-8">
     <title></title>
-    <script src="scripts.js"></script>
+		<link rel="stylesheet" href="JavaScript-autoComplete/auto-complete.css" type="text/css" media="screen" charset="utf-8">
+		<link rel="stylesheet" href="styles/styles.css" type="text/css" media="screen" charset="utf-8">
   </head>
   <body>
-    <div id="weapon"></div>
-    <div id="lastWeapon"></div>
-    <br>
-    <div id="requiredMaterials"></div>
+    <section>
+      <div class="row--flex">
+        <div class="col">
+          <h2>Select a Weapon</h2>
+          <input type="text" id="inventoryWeaponsInput" name="inventoryWeaponsInput">
+        </div>
+        <div class="col">
+
+          <h2>Selected Weapon</h2>
+          <div id="weapon"></div>
+          <div class="crafting-info" style="display: none">
+            <h2>Required Crafting Materials</h2>
+            <div id="requiredCraftingMaterials"></div>
+          </div>
+          <div class="upgrade-info" style="display: none">
+          <h2>Upgraded From:</h2>
+          <div id="lastWeapon"></div>
+          <h2>Required Upgrade Materials:</h2>
+          <div id="requiredUpgradeMaterials"></div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+
+
+
+    <!-- Scripts -->
+    <script type="" src="scripts/JavaScript-autoComplete/auto-complete.min.js"></script>
+    <script type="" src="scripts/scripts.js"></script>
   </body>
 </html>

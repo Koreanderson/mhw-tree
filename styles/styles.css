@@ -1,0 +1,19 @@
+/* Grids */
+.row--flex {
+  display: flex; }
+
+.col {
+  padding: 0 20px; }
+
+/* Autocomplete Suggestions */
+.autocomplete-suggestions {
+  border: 1px solid black;
+  display: none; }
+
+.autocomplete-suggestion {
+  cursor: pointer;
+  padding: 5px; }
+  .autocomplete-suggestion:hover {
+    background: #f1f1f1; }
+
+/*# sourceMappingURL=styles.css.map */
