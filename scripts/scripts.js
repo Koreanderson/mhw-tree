@@ -1,13 +1,18 @@
 const baseUrl = 'https://mhw-db.com';
-const weaponId =  783;
-const inventoryWeaponArray = [780, 779];
-const currentWeaponArray = [];
+const inventoryWeapons = [];
 
-async function getWeaponByName(name) {
-  const url = baseUrl + '/weapons/?q={"name":"' + name + '"}';
-  const response = await fetch(url);
-  const json = await response.json();
-  return json[0];
+// Build Inventory Weapons
+
+function addWeaponToInventory(weaponId) {
+  inventoryWeapons.push(weapon);
+}
+
+async function getInventoryWeapons(inventoryWeaponIds) {
+  const pWeaponIds = inventoryWeaponIds.map(async function(id) {
+    const response = await getWeaponById(id);
+    return response;
+  });
+  const inventoryWeapons = await Promise.all(pWeaponIds);
 }
 
 async function getWeaponById(id) {
@@ -17,6 +22,12 @@ async function getWeaponById(id) {
   return json;
 }
 
+async function getWeaponByName(name) {
+  const url = baseUrl + '/weapons/?q={"name":"' + name + '"}';
+  const response = await fetch(url);
+  const json = await response.json();
+  return json[0];
+}
 
 async function getWeaponTree(id) {
   const weapon = await getWeaponById(id);
@@ -77,17 +88,8 @@ async function getWeaponTreeByName(name) {
     document.getElementById('lastWeapon').innerHTML = lastWeapon.name;
 
   }
-
-
 }
 
-async function getInventoryWeapons(inventoryWeaponIds) {
-  const pWeaponIds = inventoryWeaponIds.map(async function(id) {
-    const response = await getWeaponById(id);
-    return response;
-  });
-  const inventoryWeapons = await Promise.all(pWeaponIds);
-}
 
 async function getAllWeapons() {
   const url = 'https://mhw-db.com/weapons';
