@@ -49,7 +49,7 @@ async function getWeaponTreeByName(name) {
     document.querySelector('.upgrade-info').style.display = 'none';
     const requiredMats = weapon.crafting.craftingMaterials;
     const requiredMatsContainer = document.getElementById('requiredCraftingMaterials');
-
+    requiredMatsContainer.innerHTML = '';
     requiredMats.map(function(mat) {
 
       let item = document.createElement("div");
@@ -61,10 +61,11 @@ async function getWeaponTreeByName(name) {
   } else {
     document.querySelector('.upgrade-info').style.display = 'block';
     document.querySelector('.crafting-info').style.display = 'none';
-    const requiredMatsContainer = document.getElementById('requiredUpgradeMaterials');
     const lastWeaponId = weapon.crafting.previous;
     const lastWeapon = await getWeaponById(lastWeaponId);
     const requiredMats = lastWeapon.crafting.upgradeMaterials;
+    const requiredMatsContainer = document.getElementById('requiredUpgradeMaterials');
+    requiredMatsContainer.innerHTML = '';
 
     requiredMats.map(function(mat) {
 
