@@ -49,6 +49,7 @@ async function getWeaponTree(id) {
 }
 
 async function getWeaponTreeByName(name) {
+
   const weapon = await getWeaponByName(name);
   const isCraftable = weapon.crafting.craftable;
 
@@ -56,10 +57,13 @@ async function getWeaponTreeByName(name) {
   document.getElementById('weapon').innerHTML = weapon.name;
 
   if (isCraftable) {
+
     document.querySelector('.crafting-info').style.display = 'block';
     document.querySelector('.upgrade-info').style.display = 'none';
+
     const requiredMats = weapon.crafting.craftingMaterials;
     const requiredMatsContainer = document.getElementById('requiredCraftingMaterials');
+
     requiredMatsContainer.innerHTML = '';
     requiredMats.map(function(mat) {
 
@@ -68,16 +72,17 @@ async function getWeaponTreeByName(name) {
       requiredMatsContainer.appendChild(item)
 
     });
-
   } else {
+
     document.querySelector('.upgrade-info').style.display = 'block';
     document.querySelector('.crafting-info').style.display = 'none';
+
     const lastWeaponId = weapon.crafting.previous;
     const lastWeapon = await getWeaponById(lastWeaponId);
     const requiredMats = lastWeapon.crafting.upgradeMaterials;
     const requiredMatsContainer = document.getElementById('requiredUpgradeMaterials');
-    requiredMatsContainer.innerHTML = '';
 
+    requiredMatsContainer.innerHTML = '';
     requiredMats.map(function(mat) {
 
       let item = document.createElement("div");
@@ -85,11 +90,10 @@ async function getWeaponTreeByName(name) {
       requiredMatsContainer.appendChild(item)
 
     });
-    document.getElementById('lastWeapon').innerHTML = lastWeapon.name;
 
+    document.getElementById('lastWeapon').innerHTML = lastWeapon.name;
   }
 }
-
 
 async function getAllWeapons() {
   const url = 'https://mhw-db.com/weapons';
@@ -99,6 +103,7 @@ async function getAllWeapons() {
 }
 
 async function getAllWeaponNames() {
+
   const url = new URL('https://mhw-db.com/weapons ');
 
   url.searchParams.set('p', JSON.stringify({
@@ -115,33 +120,25 @@ function displaySelectedWeapon(weapon) {
   el.innerHTML = weapon;
 }
 
-
 async function handleAutoComplete() {
 
-  //const allWeapons = await getAllWeapons();
-  const weaponsResponse = await getAllWeaponNames();
   const weaponNames = [];
-
+  const weaponsResponse = await getAllWeaponNames();
   weaponsResponse.map(function(weapon) {
     weaponNames.push(weapon.name);
   });
-
-  console.log(weaponNames);
 
   new autoComplete({
     selector: 'input[name="inventoryWeaponsInput"]',
     minChars: 3,
     source: async function(term, suggest) {
-
       const response = [];
-
       weaponNames.map(function(weaponName) {
         if(weaponName.toLowerCase().indexOf(term) >= 0) {
           // push matching terms to response
           response.push(weaponName);
         }
       });
-
       suggest(response);
     },
     renderItem: function (item, search){
