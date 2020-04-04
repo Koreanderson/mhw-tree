@@ -3,8 +3,19 @@ const inventoryWeapons = [];
 
 // Build Inventory Weapons
 
-function addWeaponToInventory(weaponId) {
-  inventoryWeapons.push(weapon);
+function addWeaponToInventory(weaponName) {
+  inventoryWeapons.push(weaponName);
+  updateWeaponInventoryDisplay();
+}
+
+function updateWeaponInventoryDisplay() {
+  const inventoryContainer = document.getElementById('currentInventory');
+  inventoryContainer.innerHTML = '';
+  inventoryWeapons.map(function(weapon) {
+    let item = document.createElement("div");
+    item.innerHTML = weapon;
+    inventoryContainer.appendChild(item)
+  });
 }
 
 async function getInventoryWeapons(inventoryWeaponIds) {
@@ -120,7 +131,11 @@ function displaySelectedWeapon(weapon) {
   el.innerHTML = weapon;
 }
 
+// make class for autocomplete
+
 async function handleAutoComplete() {
+
+  // I need to abstract these variables and pass them as parameters instead to make this more versatile
 
   const weaponNames = [];
   const weaponsResponse = await getAllWeaponNames();
@@ -129,7 +144,7 @@ async function handleAutoComplete() {
   });
 
   new autoComplete({
-    selector: 'input[name="inventoryWeaponsInput"]',
+    selector: 'input[name="weaponRequirementsInput"]',
     minChars: 3,
     source: async function(term, suggest) {
       const response = [];
@@ -155,4 +170,45 @@ async function handleAutoComplete() {
   });
 }
 
+
+async function handleInventoryAutoComplete() {
+
+  const weaponNames = [];
+  const weaponsResponse = await getAllWeaponNames();
+  weaponsResponse.map(function(weapon) {
+    weaponNames.push(weapon.name);
+  });
+
+  new autoComplete({
+    selector: 'input[name="addInventoryWeapon"]',
+    minChars: 3,
+    source: async function(term, suggest) {
+      const response = [];
+      weaponNames.map(function(weaponName) {
+        if(weaponName.toLowerCase().indexOf(term) >= 0) {
+          // push matching terms to response
+          response.push(weaponName);
+        }
+      });
+      suggest(response);
+    },
+    renderItem: function (item, search){
+      search = search.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+      var re = new RegExp("(" + search.split(' ').join('|') + ")", "gi");
+      return '<div class="autocomplete-suggestion" data-val="' + item + '">' + item.replace(re, "<b>$1</b>") + '</div>';
+    },
+    onSelect: function(e, term, item) {
+      const weapon = term;
+
+      console.log(weapon);
+      addWeaponToInventory(weapon);
+      console.log(inventoryWeapons);
+
+      //displaySelectedWeapon(weapon);
+      //getWeaponTreeByName(weapon);
+    }
+  });
+}
+
+handleInventoryAutoComplete();
 handleAutoComplete();
