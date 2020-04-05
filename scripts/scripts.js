@@ -85,6 +85,7 @@ async function getWeaponTreeByName(name) {
     });
   } else {
 
+    const allPrequisiteWeapons = [];
     document.querySelector('.upgrade-info').style.display = 'block';
     document.querySelector('.crafting-info').style.display = 'none';
 
@@ -201,11 +202,11 @@ async function handleInventoryAutoComplete() {
       const weapon = term;
 
       console.log(weapon);
-      addWeaponToInventory(weapon);
       console.log(inventoryWeapons);
 
+      addWeaponToInventory(weapon);
       //displaySelectedWeapon(weapon);
-      //getWeaponTreeByName(weapon);
+      //getWeaponTreeByName(weapon)
     }
   });
 }
