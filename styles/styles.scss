@@ -1,11 +1,15 @@
 /* Grids */
 .row--flex {
+  border: 1px solid #ddd;
+  border-radius: 4px;
   display: flex;
+  margin-bottom: 1rem;
+  padding: 1rem;
 }
 
 .col {
+  flex: 1;
   padding: 0 20px;
-
 }
 
 /* Autocomplete Suggestions */
