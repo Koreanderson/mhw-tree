@@ -40,7 +40,7 @@ async function getWeaponByName(name) {
   return json[0];
 }
 
-async function getWeaponTree(id) {
+async function getWeaponRequirementsById(id) {
   const weapon = await getWeaponById(id);
   const lastWeaponId = weapon.crafting.previous;
   const lastWeapon = await getWeaponById(lastWeaponId);
@@ -81,7 +81,8 @@ async function getBaseWeapon(id) {
   }
 }
 
-async function getWeaponTreeByName(name) {
+
+async function getWeaponRequirementsByName(name) {
 
   const weapon = await getWeaponByName(name);
   const isCraftable = weapon.crafting.craftable;
@@ -188,7 +189,7 @@ async function handleAutoComplete() {
       console.log(term);
       const weapon = term;
       displaySelectedWeapon(weapon);
-      getWeaponTreeByName(weapon);
+      getWeaponRequirementsByName(weapon);
       getBaseWeapon(783);
     }
   });
