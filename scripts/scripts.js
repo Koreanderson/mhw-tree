@@ -59,6 +59,28 @@ async function getWeaponTree(id) {
   });
 }
 
+let allPreviousWeapons = [];
+
+async function getBaseWeapon(id) {
+  const weapon = await getWeaponById(id);
+  const isCraftable = weapon.crafting.craftable;
+
+  const previousWeaponId = weapon.crafting.previous;
+
+  if(isCraftable) {
+    allPreviousWeapons.push(weapon.name);
+    console.log(allPreviousWeapons);
+    return weapon;
+  }
+
+  if(previousWeaponId) {
+    const previousWeapon = await getWeaponById(previousWeaponId);
+    allPreviousWeapons.push(weapon.name);
+    allPreviousWeapons.push(previousWeapon.name);
+    getBaseWeapon(previousWeapon.crafting.previous);
+  }
+}
+
 async function getWeaponTreeByName(name) {
 
   const weapon = await getWeaponByName(name);
@@ -167,6 +189,7 @@ async function handleAutoComplete() {
       const weapon = term;
       displaySelectedWeapon(weapon);
       getWeaponTreeByName(weapon);
+      getBaseWeapon(783);
     }
   });
 }
@@ -200,13 +223,9 @@ async function handleInventoryAutoComplete() {
     },
     onSelect: function(e, term, item) {
       const weapon = term;
-
       console.log(weapon);
       console.log(inventoryWeapons);
-
       addWeaponToInventory(weapon);
-      //displaySelectedWeapon(weapon);
-      //getWeaponTreeByName(weapon)
     }
   });
 }
