@@ -59,35 +59,12 @@ async function getWeaponRequirementsById(id) {
   });
 }
 
-let allPreviousWeapons = [];
-
-async function getBaseWeapon(id) {
-  const weapon = await getWeaponById(id);
-  const isCraftable = weapon.crafting.craftable;
-
-  const previousWeaponId = weapon.crafting.previous;
-
-  if(isCraftable) {
-    allPreviousWeapons.push(weapon.name);
-    console.log(allPreviousWeapons);
-    return weapon;
-  }
-
-  if(previousWeaponId) {
-    const previousWeapon = await getWeaponById(previousWeaponId);
-    allPreviousWeapons.push(weapon.name);
-    allPreviousWeapons.push(previousWeapon.name);
-    getBaseWeapon(previousWeapon.crafting.previous);
-  }
-}
-
-
 async function getWeaponRequirementsByName(name) {
 
   const weapon = await getWeaponByName(name);
   const isCraftable = weapon.crafting.craftable;
 
-  console.log(weapon);
+  //console.log(weapon);
   document.getElementById('weapon').innerHTML = weapon.name;
 
   if (isCraftable) {
@@ -128,6 +105,53 @@ async function getWeaponRequirementsByName(name) {
 
     document.getElementById('lastWeapon').innerHTML = lastWeapon.name;
   }
+}
+
+let allPreviousWeapons = [];
+
+async function getBaseWeapon(id) {
+  const weapon = await getWeaponById(id);
+  const isCraftable = weapon.crafting.craftable;
+
+  const previousWeaponId = weapon.crafting.previous;
+
+  if(isCraftable) {
+    allPreviousWeapons.push(weapon.name);
+    console.log(allPreviousWeapons);
+    return weapon;
+  }
+
+  if(previousWeaponId) {
+    const previousWeapon = await getWeaponById(previousWeaponId);
+    allPreviousWeapons.push(weapon.name);
+    allPreviousWeapons.push(previousWeapon.name);
+    getBaseWeapon(previousWeapon.crafting.previous);
+  }
+}
+
+let currentWeaponTree = [];
+
+async function getWeaponTree(id) {
+  const weapon = await getWeaponById(id);
+  const isCraftable = weapon.crafting.craftable;
+  const previousWeaponId = weapon.crafting.previous;
+
+  if(isCraftable) {
+    currentWeaponTree.push(weapon.name);
+    console.log(currentWeaponTree);
+    return weapon;
+  }
+
+  if(previousWeaponId) {
+    const previousWeapon = await getWeaponById(previousWeaponId);
+    currentWeaponTree.push(weapon.name);
+    currentWeaponTree.push(previousWeapon.name);
+    getWeaponTree(previousWeapon.crafting.previous);
+  }
+}
+
+async function displayWeaponTree() {
+
 }
 
 async function getAllWeapons() {
@@ -185,12 +209,16 @@ async function handleAutoComplete() {
       var re = new RegExp("(" + search.split(' ').join('|') + ")", "gi");
       return '<div class="autocomplete-suggestion" data-val="' + item + '">' + item.replace(re, "<b>$1</b>") + '</div>';
     },
-    onSelect: function(e, term, item) {
+    onSelect: async function(e, term, item) {
       console.log(term);
-      const weapon = term;
-      displaySelectedWeapon(weapon);
-      getWeaponRequirementsByName(weapon);
-      getBaseWeapon(783);
+      const weaponName = term;
+      displaySelectedWeapon(weaponName);
+      getWeaponRequirementsByName(weaponName);
+
+      const weapon = await getWeaponByName(weaponName);
+
+      console.log('getting weapon tree...');
+      getWeaponTree(weapon.id);
     }
   });
 }
@@ -224,7 +252,7 @@ async function handleInventoryAutoComplete() {
     },
     onSelect: function(e, term, item) {
       const weapon = term;
-      console.log(weapon);
+      //console.log(weapon);
       console.log(inventoryWeapons);
       addWeaponToInventory(weapon);
     }
