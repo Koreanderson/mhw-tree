@@ -129,29 +129,28 @@ async function getBaseWeapon(id) {
   }
 }
 
-let currentWeaponTree = [];
-
-async function getWeaponTree(id) {
+async function getWeaponTree(array, id) {
   const weapon = await getWeaponById(id);
   const isCraftable = weapon.crafting.craftable;
   const previousWeaponId = weapon.crafting.previous;
+  const currentWeaponTree = array;
 
   if(isCraftable) {
     currentWeaponTree.push(weapon.name);
     console.log(currentWeaponTree);
-    return weapon;
+    return currentWeaponTree
   }
 
   if(previousWeaponId) {
     const previousWeapon = await getWeaponById(previousWeaponId);
     currentWeaponTree.push(weapon.name);
     currentWeaponTree.push(previousWeapon.name);
-    getWeaponTree(previousWeapon.crafting.previous);
+    getWeaponTree(array, previousWeapon.crafting.previous);
   }
 }
 
-async function displayWeaponTree() {
-
+async function displayWeaponTree(array,id) {
+  const treeData = await getWeaponTree(array, id);
 }
 
 async function getAllWeapons() {
@@ -210,15 +209,17 @@ async function handleAutoComplete() {
       return '<div class="autocomplete-suggestion" data-val="' + item + '">' + item.replace(re, "<b>$1</b>") + '</div>';
     },
     onSelect: async function(e, term, item) {
-      console.log(term);
       const weaponName = term;
       displaySelectedWeapon(weaponName);
       getWeaponRequirementsByName(weaponName);
 
       const weapon = await getWeaponByName(weaponName);
 
+      const newWeaponTree = [];
+      // clear array of any old data
+      //currentWeaponTree.length = 0;
       console.log('getting weapon tree...');
-      getWeaponTree(weapon.id);
+      getWeaponTree(newWeaponTree, weapon.id)
     }
   });
 }
@@ -252,7 +253,6 @@ async function handleInventoryAutoComplete() {
     },
     onSelect: function(e, term, item) {
       const weapon = term;
-      //console.log(weapon);
       console.log(inventoryWeapons);
       addWeaponToInventory(weapon);
     }
