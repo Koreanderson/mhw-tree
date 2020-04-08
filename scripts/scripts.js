@@ -63,6 +63,34 @@ async function getWeaponRequirementsByName(name) {
 
   const weapon = await getWeaponByName(name);
   const isCraftable = weapon.crafting.craftable;
+  const weaponRequirements =[];
+
+  if (isCraftable) {
+
+    const requiredMats = weapon.crafting.craftingMaterials;
+    requiredMats.map(function(mat) {
+      weaponRequirements.push(mat);
+    });
+
+  } else {
+
+    const allPrequisiteWeapons = [];
+    const lastWeaponId = weapon.crafting.previous;
+    const lastWeapon = await getWeaponById(lastWeaponId);
+    const requiredMats = lastWeapon.crafting.upgradeMaterials;
+
+    requiredMats.map(function(mat) {
+      weaponRequirements.push(mat);
+    });
+  }
+
+  return weaponRequirements
+}
+
+async function displayWeaponRequirementsByName(name) {
+
+  const weapon = await getWeaponByName(name);
+  const isCraftable = weapon.crafting.craftable;
 
   //console.log(weapon);
   document.getElementById('weapon').innerHTML = weapon.name;
@@ -154,7 +182,11 @@ async function displayWeaponTree(array,id) {
   const weaponTreeEl = document.querySelector('.weapon-tree');
   weaponTreeEl.innerHTML = '';
 
-  treeData.map(function(weapon) {
+  treeData.map(async function(weapon) {
+    const weaponReqs = await getWeaponRequirementsByName(weapon);
+    console.log(weaponReqs);
+    // Need to map weapon reqs to create new elements for each item
+
     let item = document.createElement("div");
     item.innerHTML = weapon;
     weaponTreeEl.appendChild(item)
@@ -219,7 +251,7 @@ async function handleAutoComplete() {
     onSelect: async function(e, term, item) {
       const weaponName = term;
       displaySelectedWeapon(weaponName);
-      getWeaponRequirementsByName(weaponName);
+      displayWeaponRequirementsByName(weaponName);
 
       const weapon = await getWeaponByName(weaponName);
       const newWeaponTree = [];
