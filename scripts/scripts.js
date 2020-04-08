@@ -150,7 +150,15 @@ async function getWeaponTree(array, id) {
 
 async function displayWeaponTree(array,id) {
   const treeData = await getWeaponTree(array, id);
-  console.log(treeData);
+  const weapons = treeData.reverse();
+  const weaponTreeEl = document.querySelector('.weapon-tree');
+  weaponTreeEl.innerHTML = '';
+
+  treeData.map(function(weapon) {
+    let item = document.createElement("div");
+    item.innerHTML = weapon;
+    weaponTreeEl.appendChild(item)
+  });
 }
 
 async function getAllWeapons() {
@@ -215,10 +223,6 @@ async function handleAutoComplete() {
 
       const weapon = await getWeaponByName(weaponName);
       const newWeaponTree = [];
-      // clear array of any old data
-      //currentWeaponTree.length = 0;
-      console.log('getting weapon tree...');
-      //getWeaponTree(newWeaponTree, weapon.id)
       displayWeaponTree(newWeaponTree, weapon.id);
     }
   });
