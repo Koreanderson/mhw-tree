@@ -11,7 +11,7 @@ function addWeaponToInventory(weaponName) {
 function updateWeaponInventoryDisplay() {
   const inventoryContainer = document.getElementById('currentInventory');
   inventoryContainer.innerHTML = '';
-  inventoryWeapons.map(function(weapon) {
+  inventoryWeapons.map((weapon) => {
     let item = document.createElement("div");
     item.innerHTML = weapon;
     inventoryContainer.appendChild(item)
@@ -19,7 +19,7 @@ function updateWeaponInventoryDisplay() {
 }
 
 async function getInventoryWeapons(inventoryWeaponIds) {
-  const pWeaponIds = inventoryWeaponIds.map(async function(id) {
+  const pWeaponIds = inventoryWeaponIds.map(async (id) => {
     const response = await getWeaponById(id);
     return response;
   });
@@ -50,7 +50,7 @@ async function getWeaponRequirementsById(id) {
   document.getElementById('weapon').innerHTML = 'Current Weapon: ' + weapon.name;
   document.getElementById('lastWeapon').innerHTML = 'Last Weapon: ' + lastWeapon.name;
 
-  requiredMats.map(function(mat) {
+  requiredMats.map((mat) => {
 
     let item = document.createElement("div");
     item.innerHTML = mat.quantity + "- " + mat.item.name;
@@ -68,7 +68,7 @@ async function getWeaponRequirementsByName(name) {
   if (isCraftable) {
 
     const requiredMats = weapon.crafting.craftingMaterials;
-    requiredMats.map(function(mat) {
+    requiredMats.map((mat) => {
       weaponRequirements.push(mat);
     });
 
@@ -79,7 +79,7 @@ async function getWeaponRequirementsByName(name) {
     const lastWeapon = await getWeaponById(lastWeaponId);
     const requiredMats = lastWeapon.crafting.upgradeMaterials;
 
-    requiredMats.map(function(mat) {
+    requiredMats.map((mat) => {
       weaponRequirements.push(mat);
     });
   }
@@ -103,7 +103,7 @@ async function displayWeaponRequirementsByName(name) {
     const requiredMatsContainer = document.getElementById('requiredCraftingMaterials');
 
     requiredMatsContainer.innerHTML = '';
-    requiredMats.map(function(mat) {
+    requiredMats.map((mat) => {
 
       let item = document.createElement("div");
       item.innerHTML = mat.item.name + " <strong>x" + mat.quantity + "</strong>";
@@ -122,7 +122,7 @@ async function displayWeaponRequirementsByName(name) {
     const requiredMatsContainer = document.getElementById('requiredUpgradeMaterials');
 
     requiredMatsContainer.innerHTML = '';
-    requiredMats.map(function(mat) {
+    requiredMats.map((mat) => {
 
       let item = document.createElement("div");
       item.innerHTML = mat.item.name + " <strong>x" + mat.quantity + "</strong>";
@@ -233,7 +233,7 @@ async function handleAutoComplete() {
 
   const weaponNames = [];
   const weaponsResponse = await getAllWeaponNames();
-  weaponsResponse.map(function(weapon) {
+  weaponsResponse.map((weapon) => {
     weaponNames.push(weapon.name);
   });
 
@@ -242,7 +242,7 @@ async function handleAutoComplete() {
     minChars: 3,
     source: async function(term, suggest) {
       const response = [];
-      weaponNames.map(function(weaponName) {
+      weaponNames.map((weaponName) => {
         if(weaponName.toLowerCase().indexOf(term) >= 0) {
           // push matching terms to response
           response.push(weaponName);
@@ -272,7 +272,7 @@ async function handleInventoryAutoComplete() {
 
   const weaponNames = [];
   const weaponsResponse = await getAllWeaponNames();
-  weaponsResponse.map(function(weapon) {
+  weaponsResponse.map((weapon) => {
     weaponNames.push(weapon.name);
   });
 
@@ -281,7 +281,7 @@ async function handleInventoryAutoComplete() {
     minChars: 3,
     source: async function(term, suggest) {
       const response = [];
-      weaponNames.map(function(weaponName) {
+      weaponNames.map((weaponName) => {
         if(weaponName.toLowerCase().indexOf(term) >= 0) {
           // push matching terms to response
           response.push(weaponName);
