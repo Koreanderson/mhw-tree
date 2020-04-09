@@ -92,7 +92,6 @@ async function displayWeaponRequirementsByName(name) {
   const weapon = await getWeaponByName(name);
   const isCraftable = weapon.crafting.craftable;
 
-  //console.log(weapon);
   document.getElementById('weapon').innerHTML = weapon.name;
 
   if (isCraftable) {
@@ -145,7 +144,6 @@ async function getBaseWeapon(id) {
 
   if(isCraftable) {
     allPreviousWeapons.push(weapon.name);
-    console.log(allPreviousWeapons);
     return weapon;
   }
 
@@ -182,14 +180,23 @@ async function displayWeaponTree(array,id) {
   const weaponTreeEl = document.querySelector('.weapon-tree');
   weaponTreeEl.innerHTML = '';
 
-  treeData.map(async function(weapon) {
-    const weaponReqs = await getWeaponRequirementsByName(weapon);
-    console.log(weaponReqs);
-    // Need to map weapon reqs to create new elements for each item
+  treeData.map(async (weapon,i) => {
+    let item = document.createElement('div');
+    let heading = document.createElement('div');
+    let matContainer = document.createElement('ul');
+    heading.innerHTML = 'Upgrade Requirements:';
+    item.innerHTML = '<h4>' + weapon + '</h4>';
+    item.appendChild(heading);
+    item.appendChild(matContainer);
 
-    let item = document.createElement("div");
-    item.innerHTML = weapon;
     weaponTreeEl.appendChild(item)
+    const weaponReqs = await getWeaponRequirementsByName(weapon);
+
+    weaponReqs.map((mat) => {
+      let matEl = document.createElement('li');
+      matEl.innerHTML = mat.item.name + ' <strong>x' + mat.quantity + '</strong>';
+      matContainer.appendChild(matEl);
+    });
   });
 }
 
@@ -289,7 +296,6 @@ async function handleInventoryAutoComplete() {
     },
     onSelect: function(e, term, item) {
       const weapon = term;
-      console.log(inventoryWeapons);
       addWeaponToInventory(weapon);
     }
   });
