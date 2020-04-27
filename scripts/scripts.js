@@ -1,6 +1,6 @@
 const baseUrl = 'https://mhw-db.com';
-// Build Inventory Weapons
 
+// Build Inventory
 function setInventory() {
   const existingInventoryData = localStorage.getItem('mhwInventory');
   if (existingInventoryData) {
@@ -31,6 +31,20 @@ function updateWeaponInventoryDisplay() {
     item.innerHTML = weapon;
     inventoryContainer.appendChild(item)
   });
+}
+
+// Build Wishlist 
+function setWishlist() {
+  const wishlist = localStorage.getItem('mhwWishlist');
+  if (wishlist) {
+    updateWishlistDisplay();
+  } else {
+    localStorage.setItem('mhwWishlist', '');
+  }
+}
+
+function updateWishlistDisplay() {
+
 }
 
 async function getInventoryWeapons(inventoryWeaponIds) {
@@ -317,5 +331,6 @@ async function handleInventoryAutoComplete() {
 }
 
 setInventory();
+setWishlist();
 handleInventoryAutoComplete();
 handleAutoComplete();
