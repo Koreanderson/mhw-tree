@@ -1,17 +1,32 @@
 const baseUrl = 'https://mhw-db.com';
-const inventoryWeapons = [];
-
 // Build Inventory Weapons
 
+function setInventory() {
+  const existingInventoryData = localStorage.getItem('mhwInventory');
+  if (existingInventoryData) {
+    updateWeaponInventoryDisplay();
+  } else {
+    localStorage.setItem('mhwInventory', '');
+  }
+}
+
 function addWeaponToInventory(weaponName) {
-  inventoryWeapons.push(weaponName);
+  const inventory = localStorage.getItem('mhwInventory').split(',');
+  if (inventory == '') {
+    localStorage.setItem('mhwInventory', weaponName);
+  } else {
+    inventory.push(weaponName);
+    const filteredInventory = Array.from(new Set(inventory));
+    localStorage.setItem('mhwInventory', filteredInventory);
+  }
   updateWeaponInventoryDisplay();
 }
 
 function updateWeaponInventoryDisplay() {
+  const inventory = localStorage.getItem('mhwInventory').split(',');
   const inventoryContainer = document.getElementById('currentInventory');
   inventoryContainer.innerHTML = '';
-  inventoryWeapons.map((weapon) => {
+  inventory.map((weapon) => {
     let item = document.createElement("div");
     item.innerHTML = weapon;
     inventoryContainer.appendChild(item)
@@ -301,5 +316,6 @@ async function handleInventoryAutoComplete() {
   });
 }
 
+setInventory();
 handleInventoryAutoComplete();
 handleAutoComplete();
