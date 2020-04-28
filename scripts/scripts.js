@@ -274,7 +274,37 @@ function displaySelectedWeapon(weapon) {
   el.innerHTML = weapon;
 }
 
-// make class for autocomplete
+async function createWishlistAC() {
+
+  const weaponNames = [];
+  const weaponsResponse = await getAllWeaponNames();
+  weaponsResponse.map((weapon) => {
+    weaponNames.push(weapon.name);
+  });
+
+  new autoComplete({
+    selector: 'input[name="addToWishlist"]',
+    minChars: 3,
+    source: async function(term, suggest) {
+      const response = [];
+      weaponNames.map((weaponName) => {
+        if(weaponName.toLowerCase().indexOf(term) >= 0) {
+          response.push(weaponName);
+        }
+      });
+      suggest(response);
+    },
+    renderItem: function (item, search){
+      search = search.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+      var re = new RegExp("(" + search.split(' ').join('|') + ")", "gi");
+      return '<div class="autocomplete-suggestion" data-val="' + item + '">' + item.replace(re, "<b>$1</b>") + '</div>';
+    },
+    onSelect: function(e, term, item) {
+      const weapon = term;
+      addWeaponToWishlist(weapon);
+    }
+  });
+}
 
 async function createRequirementsAC() {
 
@@ -349,5 +379,6 @@ async function createInventoryAC() {
 
 setInventory();
 setWishlist();
+createWishlistAC();
 createInventoryAC();
 createRequirementsAC();
