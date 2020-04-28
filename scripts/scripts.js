@@ -276,7 +276,7 @@ function displaySelectedWeapon(weapon) {
 
 // make class for autocomplete
 
-async function displayRequirementsAutocomplete() {
+async function createRequirementsAC() {
 
   const weaponNames = [];
   const weaponsResponse = await getAllWeaponNames();
@@ -350,4 +350,4 @@ async function createInventoryAC() {
 setInventory();
 setWishlist();
 createInventoryAC();
-displayRequirementsAutocomplete();
+createRequirementsAC();
