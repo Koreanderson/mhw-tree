@@ -50,8 +50,21 @@ function updateWishlistDisplay() {
   wishlist.map((weapon) => {
     let item = document.createElement("div");
     item.innerHTML = weapon;
-    wishListContainer.appendChild(item)
+    wishlistContainer.appendChild(item)
   });
+}
+
+function addWeaponToWishlist(weaponName) {
+  const wishlist = localStorage.getItem('mhwWishlist').split(',');
+  if (wishlist == '') {
+    localStorage.setItem('mhwWishlist', weaponName);
+  } else {
+    wishlist.push(weaponName);
+    const filteredWishlist = Array.from(new Set(wishlist));
+    localStorage.setItem('mhwWishlist', filteredWishlist);
+  }
+  updateWishlistDisplay();
+
 }
 
 async function getInventoryWeapons(inventoryWeaponIds) {
