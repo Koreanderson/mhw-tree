@@ -276,9 +276,7 @@ function displaySelectedWeapon(weapon) {
 
 // make class for autocomplete
 
-async function handleAutoComplete() {
-
-  // I need to abstract these variables and pass them as parameters instead to make this more versatile
+async function displayRequirementsAutocomplete() {
 
   const weaponNames = [];
   const weaponsResponse = await getAllWeaponNames();
@@ -316,8 +314,7 @@ async function handleAutoComplete() {
   });
 }
 
-
-async function handleInventoryAutoComplete() {
+async function createInventoryAC() {
 
   const weaponNames = [];
   const weaponsResponse = await getAllWeaponNames();
@@ -352,5 +349,5 @@ async function handleInventoryAutoComplete() {
 
 setInventory();
 setWishlist();
-handleInventoryAutoComplete();
-handleAutoComplete();
+createInventoryAC();
+displayRequirementsAutocomplete();
