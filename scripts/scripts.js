@@ -44,7 +44,14 @@ function setWishlist() {
 }
 
 function updateWishlistDisplay() {
-
+  const wishlist = localStorage.getItem('mhwWishlist').split(',');
+  const wishlistContainer = document.getElementById('wishlist');
+  wishlistContainer.innerHTML = '';
+  wishlist.map((weapon) => {
+    let item = document.createElement("div");
+    item.innerHTML = weapon;
+    wishListContainer.appendChild(item)
+  });
 }
 
 async function getInventoryWeapons(inventoryWeaponIds) {
