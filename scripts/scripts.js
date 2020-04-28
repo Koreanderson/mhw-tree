@@ -43,14 +43,29 @@ function setWishlist() {
   }
 }
 
+
+
 function updateWishlistDisplay() {
   const wishlist = localStorage.getItem('mhwWishlist').split(',');
   const wishlistContainer = document.getElementById('wishlist');
   wishlistContainer.innerHTML = '';
-  wishlist.map((weapon) => {
+  wishlist.map((weaponName) => {
     let item = document.createElement("div");
-    item.innerHTML = weapon;
+    item.innerHTML = weaponName;
+    item.classList.add('wishlist-item');
+    item.setAttribute('data-name', weapon); 
+
+    item.addEventListener('click', async function() {
+      const weaponObj = await getWeaponByName(weaponName);
+      let newWeaponTree = [];
+      const weaponEl = this.getAttribute('data-name');
+
+      displayWeaponRequirementsByName(weaponName);
+      displayWeaponTree(newWeaponTree, weaponObj.id);
+    });
+
     wishlistContainer.appendChild(item)
+
   });
 }
 
@@ -64,7 +79,6 @@ function addWeaponToWishlist(weaponName) {
     localStorage.setItem('mhwWishlist', filteredWishlist);
   }
   updateWishlistDisplay();
-
 }
 
 async function getInventoryWeapons(inventoryWeaponIds) {
