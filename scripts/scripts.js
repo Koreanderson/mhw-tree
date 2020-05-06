@@ -49,43 +49,50 @@ function updateWishlistDisplay() {
   const wishlist = localStorage.getItem('mhwWishlist').split(',');
   const wishlistContainer = document.getElementById('wishlist');
   wishlistContainer.innerHTML = '';
-  wishlist.map((weaponName) => {
-    let item = document.createElement('div');
-    let viewItem = document.createElement('div');
+  if(wishlist[0] != '') {
+    wishlist.map((weaponName) => {
+      let item = document.createElement('div');
+      let viewItem = document.createElement('div');
 
-    let removeItem = document.createElement('div');
-    removeItem.innerHTML = 'remove item';
+      let removeItem = document.createElement('div');
+      removeItem.innerHTML = 'remove item';
 
-    viewItem.classList.add('view-item');
-    viewItem.innerHTML = weaponName;
+      viewItem.classList.add('view-item');
+      viewItem.innerHTML = weaponName;
 
-    removeItem.classList.add('remove-item');
+      removeItem.classList.add('remove-item');
 
-    item.append(viewItem);
-    item.append(removeItem);
-    item.classList.add('wishlist-item');
-    item.setAttribute('data-name', weapon); 
+      item.append(viewItem);
+      item.append(removeItem);
+      item.classList.add('wishlist-item');
+      item.setAttribute('data-name', weapon); 
 
-    viewItem.addEventListener('click', async function() {
-      const weaponObj = await getWeaponByName(weaponName);
-      let newWeaponTree = [];
-      const weaponEl = this.getAttribute('data-name');
+      viewItem.addEventListener('click', async function() {
+        const weaponObj = await getWeaponByName(weaponName);
+        let newWeaponTree = [];
+        const weaponEl = this.getAttribute('data-name');
 
-      displayWeaponRequirementsByName(weaponName);
-      displayWeaponTree(newWeaponTree, weaponObj.id);
+        displayWeaponRequirementsByName(weaponName);
+        displayWeaponTree(newWeaponTree, weaponObj.id);
+      });
+
+      removeItem.addEventListener('click', async function() {
+        removeWeaponFromWishList(weaponName);
+      });
+
+      wishlistContainer.appendChild(item)
+
     });
-    
-    removeItem.addEventListener('click', async function() {
-      removeWeaponFromWishList(weaponName);
-    });
 
-    wishlistContainer.appendChild(item)
-
-  });
+  }
 }
 
 function removeWeaponFromWishList(weaponName) {
-  console.log('removing ' + weaponName);
+  const wishlist = localStorage.getItem('mhwWishlist').split(',');
+  const index = wishlist.indexOf(weaponName);
+  wishlist.splice(index,1);
+  localStorage.setItem('mhwWishlist', wishlist);
+  updateWishlistDisplay();
 }
 
 function addWeaponToWishlist(weaponName) {
