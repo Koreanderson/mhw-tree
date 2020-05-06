@@ -50,12 +50,23 @@ function updateWishlistDisplay() {
   const wishlistContainer = document.getElementById('wishlist');
   wishlistContainer.innerHTML = '';
   wishlist.map((weaponName) => {
-    let item = document.createElement("div");
-    item.innerHTML = weaponName;
+    let item = document.createElement('div');
+    let viewItem = document.createElement('div');
+
+    let removeItem = document.createElement('div');
+    removeItem.innerHTML = 'remove item';
+
+    viewItem.classList.add('view-item');
+    viewItem.innerHTML = weaponName;
+
+    removeItem.classList.add('remove-item');
+
+    item.append(viewItem);
+    item.append(removeItem);
     item.classList.add('wishlist-item');
     item.setAttribute('data-name', weapon); 
 
-    item.addEventListener('click', async function() {
+    viewItem.addEventListener('click', async function() {
       const weaponObj = await getWeaponByName(weaponName);
       let newWeaponTree = [];
       const weaponEl = this.getAttribute('data-name');
@@ -63,10 +74,18 @@ function updateWishlistDisplay() {
       displayWeaponRequirementsByName(weaponName);
       displayWeaponTree(newWeaponTree, weaponObj.id);
     });
+    
+    removeItem.addEventListener('click', async function() {
+      removeWeaponFromWishList(weaponName);
+    });
 
     wishlistContainer.appendChild(item)
 
   });
+}
+
+function removeWeaponFromWishList(weaponName) {
+  console.log('removing ' + weaponName);
 }
 
 function addWeaponToWishlist(weaponName) {

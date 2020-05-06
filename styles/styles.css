@@ -15,7 +15,8 @@
 /* Wishlist Items */
 .wishlist-item {
   border: 1px solid #ddd;
-  display: block;
+  display: flex;
+  justify-content: space-between;
   padding: 10px;
   margin: 10px;
   cursor: pointer;
@@ -23,7 +24,6 @@
 .wishlist-item:hover {
   background: #f1f1f1;
 }
-
 /* Autocomplete Suggestions */
 .autocomplete-suggestions {
   border: 1px solid black;
