@@ -13,7 +13,7 @@ $ open mhw-tree/index.html
 ## To Dos
 
 - Check wishlist item prerequisites for already owned items
-- Adding options to remove items from inventory//wishlist - (currently saved in localStorage so you can reset it there manually)
+- ~~Adding options to remove items from inventory//wishlist - (currently saved in localStorage so you can reset it there manually)~~
 - Requirement gathering location data
 - Monster carve information
 - Monster rank data
