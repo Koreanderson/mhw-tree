@@ -22,15 +22,40 @@ function addWeaponToInventory(weaponName) {
   updateWeaponInventoryDisplay();
 }
 
+function removeWeaponFromInventory(weaponName) {
+  const inventory = localStorage.getItem('mhwInventory').split(',');
+  const inventoryContainer = document.getElementById('currentInventory');
+  const index = inventory.indexOf(weaponName);
+  inventory.splice(index,1);
+  localStorage.setItem('mhwInventory', inventory);
+  updateWeaponInventoryDisplay();
+}
+
 function updateWeaponInventoryDisplay() {
   const inventory = localStorage.getItem('mhwInventory').split(',');
   const inventoryContainer = document.getElementById('currentInventory');
   inventoryContainer.innerHTML = '';
-  inventory.map((weapon) => {
-    let item = document.createElement("div");
-    item.innerHTML = weapon;
-    inventoryContainer.appendChild(item)
-  });
+  if(inventory[0] != '') {
+    inventory.map((weaponName) => {
+      let item = document.createElement('div');
+      let itemInner = document.createElement('dev');
+      let removeItem = document.createElement('div');
+
+      item.classList.add('inventory-item'); 
+
+      removeItem.innerHTML = 'remove item';
+      itemInner.innerHTML = weaponName;
+
+      removeItem.addEventListener('click', async function() {
+        removeWeaponFromInventory(weaponName);
+      });
+
+      item.append(itemInner);
+      item.append(removeItem);
+
+      inventoryContainer.appendChild(item)
+    });
+  }
 }
 
 // Build Wishlist 
@@ -42,8 +67,6 @@ function setWishlist() {
     localStorage.setItem('mhwWishlist', '');
   }
 }
-
-
 
 function updateWishlistDisplay() {
   const wishlist = localStorage.getItem('mhwWishlist').split(',');
@@ -83,7 +106,6 @@ function updateWishlistDisplay() {
       wishlistContainer.appendChild(item)
 
     });
-
   }
 }
 

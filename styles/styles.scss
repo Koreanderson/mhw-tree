@@ -12,7 +12,8 @@
   padding: 0 20px;
 }
 
-/* Wishlist Items */
+/* List Items */
+.inventory-item,
 .wishlist-item {
   border: 1px solid #ddd;
   display: flex;
@@ -24,10 +25,8 @@
     background: #f1f1f1;
   }
   .view-item {
-
   }
   .remove-item {
-
   }
 }
 

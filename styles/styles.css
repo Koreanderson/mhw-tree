@@ -12,7 +12,8 @@
   padding: 0 20px;
 }
 
-/* Wishlist Items */
+/* List Items */
+.inventory-item,
 .wishlist-item {
   border: 1px solid #ddd;
   display: flex;
@@ -21,6 +22,7 @@
   margin: 10px;
   cursor: pointer;
 }
+.inventory-item:hover,
 .wishlist-item:hover {
   background: #f1f1f1;
 }
