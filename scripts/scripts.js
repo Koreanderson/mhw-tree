@@ -295,19 +295,21 @@ async function displayWeaponTree(array,id) {
 
   treeData.map(async (weapon,i) => {
 
-
     let item = document.createElement('div');
     let heading = document.createElement('div');
     let matContainer = document.createElement('ul');
 
     if(ownedItemsInTree.indexOf(weapon) > -1) {
       item.classList.add('owned');
+      item.innerHTML = '<h4>' + weapon + ' <span>owned</span></h4>';
+    } else {
+      item.innerHTML = '<h4>' + weapon + '</h4>';
     }
 
     heading.innerHTML = 'Upgrade Requirements:';
-    item.innerHTML = '<h4>' + weapon + '</h4>';
     item.appendChild(heading);
     item.appendChild(matContainer);
+
 
     weaponTreeEl.appendChild(item)
     const weaponReqs = await getWeaponRequirementsByName(weapon);
