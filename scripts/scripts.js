@@ -275,7 +275,6 @@ async function getWeaponTree(array, id) {
   currentWeaponTree.push(weapon.name);
 
   if(isCraftable) {
-    console.log(currentWeaponTree);
     return currentWeaponTree;
   }
 
