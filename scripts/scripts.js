@@ -272,16 +272,16 @@ async function getWeaponTree(array, id) {
   const previousWeaponId = weapon.crafting.previous;
   const currentWeaponTree = array;
 
+  currentWeaponTree.push(weapon.name);
+
   if(isCraftable) {
-    currentWeaponTree.push(weapon.name);
+    console.log(currentWeaponTree);
     return currentWeaponTree;
   }
 
   if(previousWeaponId) {
     const previousWeapon = await getWeaponById(previousWeaponId);
-    currentWeaponTree.push(weapon.name);
-    currentWeaponTree.push(previousWeapon.name);
-    return getWeaponTree(array, previousWeapon.crafting.previous);
+    return getWeaponTree(array, previousWeapon.id);
   }
 }
 
@@ -310,7 +310,6 @@ async function displayWeaponTree(array,id) {
     item.appendChild(heading);
     item.appendChild(matContainer);
 
-
     weaponTreeEl.appendChild(item)
     const weaponReqs = await getWeaponRequirementsByName(weapon);
 
@@ -330,7 +329,6 @@ function checkTreeForInventoryItems(weaponTree) {
   const matchedItems = [];
 
   inventory.sort();
-  weaponTree.sort();
 
   inventory.map((item) => {
     if(weaponTree.indexOf(item) > -1) {
