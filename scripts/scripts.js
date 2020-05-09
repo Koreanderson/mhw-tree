@@ -291,14 +291,25 @@ async function displayWeaponTree(array,id) {
   const weaponTreeEl = document.querySelector('.weapon-tree');
   weaponTreeEl.innerHTML = '';
 
+  const ownedItemsInTree = checkTreeForInventoryItems(treeData);
+
   treeData.map(async (weapon,i) => {
+
     let item = document.createElement('div');
     let heading = document.createElement('div');
     let matContainer = document.createElement('ul');
+
+    if(ownedItemsInTree.indexOf(weapon) > -1) {
+      item.classList.add('owned');
+      item.innerHTML = '<h4>' + weapon + ' <span>owned</span></h4>';
+    } else {
+      item.innerHTML = '<h4>' + weapon + '</h4>';
+    }
+
     heading.innerHTML = 'Upgrade Requirements:';
-    item.innerHTML = '<h4>' + weapon + '</h4>';
     item.appendChild(heading);
     item.appendChild(matContainer);
+
 
     weaponTreeEl.appendChild(item)
     const weaponReqs = await getWeaponRequirementsByName(weapon);
@@ -309,6 +320,25 @@ async function displayWeaponTree(array,id) {
       matContainer.appendChild(matEl);
     });
   });
+
+}
+
+function checkTreeForInventoryItems(weaponTree) {
+
+  const inventory = localStorage.getItem('mhwInventory').split(',');
+  const wishlist = localStorage.getItem('mhwWishlist').split(',');
+  const matchedItems = [];
+
+  inventory.sort();
+  weaponTree.sort();
+
+  inventory.map((item) => {
+    if(weaponTree.indexOf(item) > -1) {
+      matchedItems.push(item);
+    }
+  });
+
+  return matchedItems;
 }
 
 async function getAllWeapons() {

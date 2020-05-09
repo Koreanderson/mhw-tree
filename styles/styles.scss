@@ -13,6 +13,7 @@
 }
 
 /* List Items */
+
 .inventory-item,
 .wishlist-item {
   border: 1px solid #ddd;
@@ -27,6 +28,17 @@
   .view-item {
   }
   .remove-item {
+  }
+}
+
+/* Weapon Tree */
+
+.weapon-tree {
+  .owned {
+    h4 span {
+      text-transform: uppercase;
+      color: green;
+    }
   }
 }
 

@@ -26,6 +26,12 @@
 .wishlist-item:hover {
   background: #f1f1f1;
 }
+/* Weapon Tree */
+.weapon-tree .owned h4 span {
+  text-transform: uppercase;
+  color: green;
+}
+
 /* Autocomplete Suggestions */
 .autocomplete-suggestions {
   border: 1px solid black;
