@@ -275,6 +275,10 @@ async function getWeaponTree(array, id) {
   currentWeaponTree.push(weapon.name);
 
   if(isCraftable) {
+<<<<<<< HEAD
+=======
+    console.log(currentWeaponTree);
+>>>>>>> compare-inv-wishlist
     return currentWeaponTree;
   }
 
