@@ -12,6 +12,24 @@
   padding: 0 20px;
 }
 
+.damage-types,
+.weapon-types {
+  justify-content: space-between;
+  list-style: none;
+  .icon--weapon {
+    img {
+      width: 25px;
+      height: 25px;
+    }
+    &.selected {
+      background: #ddd;
+    }
+  }
+  img {
+    width: 100%;
+  }
+}
+
 /* List Items */
 
 .inventory-item,

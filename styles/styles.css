@@ -12,6 +12,25 @@
   padding: 0 20px;
 }
 
+.damage-types,
+.weapon-types {
+  justify-content: space-between;
+  list-style: none;
+}
+.damage-types .icon--weapon img,
+.weapon-types .icon--weapon img {
+  width: 25px;
+  height: 25px;
+}
+.damage-types .icon--weapon.selected,
+.weapon-types .icon--weapon.selected {
+  background: #ddd;
+}
+.damage-types img,
+.weapon-types img {
+  width: 100%;
+}
+
 /* List Items */
 .inventory-item,
 .wishlist-item {

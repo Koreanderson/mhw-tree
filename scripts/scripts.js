@@ -466,6 +466,20 @@ async function createInventoryAC() {
   });
 }
 
+function handleIconClick(weaponIcon) {
+  console.log('click');
+  console.log(weaponIcon);
+}
+
+const weaponIcons = document.querySelectorAll('.icon--weapon');
+
+weaponIcons.forEach(function(weaponIcon) {
+  weaponIcon.addEventListener('click', function(weaponIcon) {
+    console.log(this);
+  });
+});
+
+
 setInventory();
 setWishlist();
 createWishlistAC();
